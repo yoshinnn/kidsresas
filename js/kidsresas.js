@@ -1,0 +1,275 @@
+var baseUrl = 'https://opendata.resas-portal.go.jp/';
+var apiKey = 'M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh';
+
+
+google.charts.load('current', {packages: ['corechart', 'bar']});
+
+
+function drawAgriChart() {
+    var deferred = new $.Deferred();
+    var apiPath = "api/v1/agriculture/all/forStacked";
+
+    var prefnum = document.selbox.pref.selectedIndex;
+    var prefcode = document.selbox.pref.options[prefnum].value;
+    var prefname = document.selbox.pref.options[prefnum].innerText;
+    console.log(prefcode);
+    console.log(prefname);
+    var citynum = document.selbox.city.selectedIndex;
+    var citycode = document.selbox.city.options[citynum].value;
+    var cityname = document.selbox.city.options[citynum].innerText;
+    console.log(citycode);
+    console.log(cityname);
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', '種類');
+    data.addColumn('number', '販売金額（百万円）');
+
+    $.ajax({
+	type: 'GET',
+	url: baseUrl + apiPath,
+	headers: { 'X-API-KEY': apiKey },
+	data: {cityCode: citycode, prefCode: prefcode, year: 2010},
+	dataType: 'json',
+	success: function(ret){
+	    console.log(ret);
+	    for (var i = 0; i < ret.result.data.length; i++) {
+		var label = ret.result.data[i].sectionName;
+		var val = ret.result.data[i].value;
+		data.addRow([label, val]);
+            }
+
+	    var options = {
+		title: '農産物ごとの売上金額（'+prefname+cityname+'）',
+		isStacked: false, // trueにすると積み上げ棒グラフになる
+		animation: {
+		    duration: 2000,
+		    easing: 'out',
+		    startup: true,
+                
+		},
+                height: 600 
+	    };
+	    
+	    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	    chart.draw(data, options);
+	    deferred.resolve();
+        }
+    });
+
+}
+
+function drawManuChart() {
+
+    var deferred = new $.Deferred();
+    var apiPath = "api/v1/municipality/manufacture/perYear";
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', '種類');
+    data.addColumn('number', '販売金額（百万円）');
+
+    $.ajax({
+	type: 'GET',
+	url: baseUrl + apiPath,
+	headers: { 'X-API-KEY': apiKey },
+	data: {cityCode: cityCode, prefCode: prefCode, year: 2010},
+	dataType: 'json',
+	success: function(ret){
+	    for (var i = 0; i < ret.result.data.length; i++) {
+		var label = ret.result.data[i].sectionName;
+		var val = ret.result.data[i].value;
+		data.addRow([label, val]);
+            }
+
+	    var options = {
+		title: '農産物ごとの売上金額（）',
+		isStacked: false, // trueにすると積み上げ棒グラフになる
+		animation: {
+		    duration: 2000,
+		    easing: 'out',
+		    startup: true,
+                
+		},
+                height: 600 
+	    };
+	    
+	    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	    chart.draw(data, options);
+	    deferred.resolve();
+        }
+    });
+}
+
+
+
+
+function init() {
+    
+    // create a map in the "map_elemnt" div,
+    // set the view to a given place and zoom
+    var map = L.map('map');
+    map.setView([35.155221, 136.92314], 6);
+    
+    // add an OpenStreetMap tile layer
+    var tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+    tileLayer.addTo(map);
+   
+
+
+
+    map.on('click', function(e) { 
+	var marker = L.marker([e.latlng.lat, e.latlng.lng]);
+	marker.addTo(map);
+
+	var prms1 = geo2CityCode(e.latlng.lat, e.latlng.lng);
+	prms1.done(function() {
+	    var cityCode = $("#locinfo").attr("cityCode");
+	    var prefCode = $("#locinfo").attr("prefCode");
+
+	    var prms2 = getTune(cityCode, prefCode);
+	    prms2.done(function() {
+		var age = $("#locinfo").attr("age");
+		var youngRatio = $("#locinfo").attr("youngRatio");
+		var oldRatio = $("#locinfo").attr("oldRatio");
+
+
+		marker.bindPopup("年齢分布: "+age+"<br/>&nbsp;若年人口: "+youngRatio+"%<br/>&nbsp;老年人口: "+oldRatio+"%");
+
+		
+
+		marker.openPopup();
+		
+		// add layers
+		var baseLayers = {
+		    "OpenStreetMap": tileLayer
+		};
+		var overlays = {
+		    "Marker": marker,
+		};
+		L.control.layers(baseLayers, overlays).addTo(map); 
+		
+		// add control scale 
+		L.control.scale().addTo(map);
+
+	    });
+
+
+	});
+
+
+    });
+    
+    
+}
+
+
+function geo2CityCode(lat, lng) {
+    var deferred = new $.Deferred();
+    $.ajax({
+	type: 'GET',
+	url: "https://www.cotogoto.ai/hikyoekirank/city",
+	data: {lat: lat, lng: lng},
+	dataType: 'json',
+	success: function(ret){
+	    $('#locinfo').attr("cityCode", ret.cityCode);
+	    $('#locinfo').attr("prefCode", ret.prefCode);
+	    deferred.resolve();
+	}
+    });    
+    return deferred.promise();
+}
+
+
+function getTune(cityCode, prefCode) {
+    var deferred = new $.Deferred();
+    $.ajax({
+	type: 'GET',
+	url: baseUrl + 'api/v1/population/composition/pyramid',
+	headers: { 'X-API-KEY': apiKey },
+	data: {cityCode: cityCode, prefCode: prefCode, yearLeft: 2015, yearRight: 2020},
+
+	dataType: 'json',
+	success: function(ret){
+	    var age = "middle";
+	    //alert(JSON.stringify(ret));
+	    var youngRatio = ret.result.yearLeft.newAgePercent;
+	    var oldRatio = ret.result.yearLeft.oldAgePercent;
+	    if (oldRatio > 30) {
+		if(youngRatio > 10){
+		    age = "middle";
+		} else{
+		    age = "old";
+		}
+	    } else if (oldRatio > 25) {
+		if(youngRatio >= 13){
+		    age = "young";
+		} else{
+		    age = "middle";
+		}
+	    } else {
+		age = "young";
+	    }
+
+	    $('#locinfo').attr("age", age);
+	    $('#locinfo').attr("youngRatio", youngRatio);
+	    $('#locinfo').attr("oldRatio", oldRatio);
+	    var keywords = [];
+	    if (age == "old") {
+		keywords.push("enka");
+	    } else if (age == "middle") {
+		keywords.push("j-pop");
+	    } else if (age == "young") {
+		keywords.push("hiphop");
+	    }
+	    
+	    var prms = getSpotifyUrl(keywords.join("+"));
+	    prms.done(function() {
+		var spotifyUrl = $("#locinfo").attr("spotifyUrl");
+		var spotifyUri = $("#locinfo").attr("spotifyUri");
+		
+		console.log(spotifyUri);
+		//$("#spotify").append("<iframe src=\"http://open.spotify.com/embed?uri="+spotifyUri+"\" width=\"340\" height=\"80\" frameborder=\"0\" allowtransparency=\"true\"></iframe>");
+		window.open("http://open.spotify.com/embed?uri="+spotifyUri);
+/*
+		$("#spotify").dialog({
+		    open: function () {
+			$(this).load("http://open.spotify.com/embed?uri="+spotifyUri);
+		    },
+		    title: "このスポットにお薦めの曲"
+		});		    
+
+*/
+		deferred.resolve();
+	    });
+
+	}
+
+    });
+    return deferred.promise();
+    
+}
+
+
+function getSpotifyUrl(query) {
+    var deferred = new $.Deferred();
+    $.ajax({
+	type: 'GET',
+	url: 'https://api.spotify.com/v1/search',
+	headers: { Accept: 'application/json' },
+	data: {market: 'JP', type: 'track', limit: 40, q: query},
+	dataType: 'json',
+	success: function(ret){
+	    //console.log(JSON.stringify(ret).tracks);
+	    var len = ret.tracks.items.length;
+	    var i = Math.floor(Math.random() * len);
+	    var spotifyUrl = ret.tracks.items[i].external_urls.spotify;
+	    var spotifyUri = ret.tracks.items[i].uri;
+	    $("#locinfo").attr("spotifyUrl", spotifyUrl);
+	    $("#locinfo").attr("spotifyUri", spotifyUri);
+	    
+	    deferred.resolve();
+	}
+    });
+    return deferred.promise();
+    
+}
