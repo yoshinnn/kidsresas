@@ -74,55 +74,29 @@
 </select>
 </form>
 
+<div class="container">
+<div class="buttons">
 <ul>
-<li><a class="raised type" href="javascript:void(0)" onclick="var type = 1; google.charts.setOnLoadCallback(drawAllChart); return false;">1</a> すべてのおしごと
-<li><a class="raised type" href="javascript:void(0)" onclick="google.charts.setOnLoadCallback(drawAgriChart); return false;">2</a> 農家のおしごと
-<li><a class="raised type" href="javascript:void(0)" onclick="google.charts.setOnLoadCallback(drawManuChart); return false;">3</a> 工場のおしごと
-<li><a class="raised type" href="javascript:void(0)" onclick="return false;">4</a> お店のおしごと
-<li><a class="raised type" href="javascript:void(0)" onclick="return false;">5</a> その他のおしごと
+<li><a class="raised type" href="javascript:void(0)" onclick="selectType([1]); return false;">1</a> 人口
+<li><a class="raised type" href="javascript:void(0)" onclick="selectType([2]); return false;">2</a> 人の動き
+<li><a class="raised type" href="javascript:void(0)" onclick="selectType([3]); return false;">3</a> 産業
+<li><a class="raised type" href="javascript:void(0)" onclick="selectType([4]); return false;">4</a> お金
 </ul>
+</div> <!-- buttons -->
+
+<div class="buttons hidden" id="3">
+<ul>
+<li><a class="raised type" href="javascript:void(0)" onclick="var type = 1; google.charts.setOnLoadCallback(drawAllChart); return false;">3-1</a> すべてのおしごと
+<li><a class="raised type" href="javascript:void(0)" onclick="google.charts.setOnLoadCallback(drawAgriChart); return false;">3-2</a> 農家のおしごと
+<li><a class="raised type" href="javascript:void(0)" onclick="google.charts.setOnLoadCallback(drawManuChart); return false;">3-3</a> 工場のおしごと
+<li><a class="raised type" href="javascript:void(0)" onclick="return false;">3-4</a> お店のおしごと
+<li><a class="raised type" href="javascript:void(0)" onclick="return false;">3-5</a> その他のおしごと
+</ul>
+</div> <!-- buttons -->
+</div> <!-- container -->
 
  <div id="chart_div"></div>
 
-<script>
-function citySet(){
-var baseUrl = "https://opendata.resas-portal.go.jp/";
-var apiKey = "M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh";
-var apiPath = "api/v1/cities?prefCode=";
-var prefCode = document.selbox.pref.selectedIndex;
-//console.log(prefCode);
-$.ajax({
-type: 'GET',
-url: baseUrl + apiPath + prefCode,
-headers: { 'X-API-KEY': apiKey},
-dataType: 'json',
-success: function(ret){
-console.log(ret.result);
-var parent = document.getElementById("city");
-while (parent.firstChild) parent.removeChild(parent.firstChild);
-
-let op = document.createElement("option");
-op.value = "";
-op.text = "市町村を選ぶ";
-document.getElementById("city").appendChild(op);
-
-
-//先に元のエレメント消さないと元の市町村が残ってしまってる
-for(var i = 0; i < ret.result.length; i++){
-//console.log(ret.result[i].cityName);
-let op = document.createElement("option");
-op.value = ret.result[i].cityCode;
-op.text = ret.result[i].cityName;
-document.getElementById("city").appendChild(op);
-
-}
-
-}
-
-});
-
-}
-</script>
 
 
 
