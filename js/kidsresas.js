@@ -32,6 +32,7 @@ function selectType(types) {
 	    console.log(bigSelectors[index]);
 	});
     }else if(middleSelectors.indexOf(selector) > -1){
+	var index = middleSelectors.indexOf(selector);
 	middleSelectors.splice(index,1);
 	middleSelectors.forEach(function(value, i, midArray){
 	    $(midArray[i]).addClass("hidden");
