@@ -77,6 +77,7 @@ function drawAgriChart() {
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
     var cityname;
+    console.log(citycode);
     if(citycode == "-"){ 
 	cityname = prefname + "全体";
 	console.log(citycode);
