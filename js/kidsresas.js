@@ -50,15 +50,26 @@ function citySet(){
     });   
 }
 
-//人口構成を表示
+//RESASの人口構成のページに直接リンクする
 function drawPopComp() {
 
     var deferred = new $.Deferred();
-    var apiPath = "api/v1/poplation/composition/perYear";
+    var apiPath = "api/v1/patents/locations";
 
-
-
-
+    var prefnum = document.selbox.pref.selectedIndex;
+    var prefcode = document.selbox.pref.options[prefnum].value;
+    var prefname = document.selbox.pref.options[prefnum].innerText;
+    var citynum = document.selbox.city.selectedIndex;
+    var citycode = document.selbox.city.options[citynum].value;
+    var cityname;
+    var scope;
+    if(citycode == "-"){
+	scope = 3//都道府県全体を選択
+    }else{
+	scope = 2;//市町村を選択
+    }
+    var linkTo = "https://resas.go.jp/population-composition/#/map/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
+    window.open(linkTo,'_blank');
 
 }
 
