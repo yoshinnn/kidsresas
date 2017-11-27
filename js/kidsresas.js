@@ -11,6 +11,13 @@ function selectType(types) {
     if(node != null){
 	node.parentNode.removeChild(node);
     }
+    //container下に
+    var cont = document.getElementById(container);
+    let div = document.createElement('chart_div');
+    div.value = "";
+    div.text = "";
+    document.getElementById("container").appendChild(div);
+
 
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
