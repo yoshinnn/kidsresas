@@ -12,12 +12,12 @@ function selectType(types) {
 	node.parentNode.removeChild(node);
     }
     //container下に
-    var cont = document.getElementById(container);
-    let div = document.createElement('chart_div');
-    div.value = "";
-    div.text = "";
-    document.getElementById("container").appendChild(div);
+    var cont = document.getElementById("container");
+    var div = document.createElement('div');
 
+    div.setAttribute("id","chart_div");
+    //document.getElementById("container").appendChild(div);
+    cont.insertBefore(div, cont.firstChild);
 
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
