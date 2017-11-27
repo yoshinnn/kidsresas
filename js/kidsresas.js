@@ -18,13 +18,19 @@ function selectType(types) {
 
     var bigSelectors = ["div#1","div#2","div#3","div#4"];    //セレクタがdiv#1,2,3,4のどれか選択された時他のセレクタをhiddenにする
     var middleSelectors = ["div#3-1","div#3-2","div#3-3","div#3-4","div#3-5"];
-    var index = bigSelectors.indexOf(selector);
-    bigSelectors.splice(index,1);
-    for(var i = 0; i < bigSelectors.length; i++){
-	$(bigSelectors[i]).addClass("hidden");
-
-
+    if(index = bigSelectors.indexOf(selector)){
+	
+	if(selector!="div#3") {
+	    middleSelectors.forEach(function(value, i, array){
+		$(array[i]).addClass("hidden");
+	    });
 	}
+	bigSelectors.splice(index,1);
+	bigSelectors.forEach(function(value, i, array){
+	    $(array[i]).addClass("hidden");
+	});
+    }
+    
 }
 
 function citySet(){
