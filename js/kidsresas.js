@@ -12,7 +12,7 @@ function selectType(types) {
 	node.parentNode.removeChild(node);
     }
     //container下に
-    var cont = document.getElementById("container");
+    var cont = document.getElementByClassName("container");
     var div = document.createElement('div');
 
     div.setAttribute("id","chart_div");
