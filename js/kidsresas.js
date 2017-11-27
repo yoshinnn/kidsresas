@@ -122,7 +122,7 @@ function linkToPyramid() {
     var scope;
 
     if(citycode == "-"){
-        scope = 3;//都道府県全体を選択                                                                                              
+        scope = 2;//都道府県全体を選択                                                                                              
     }else{
         scope = 2;//市町村を選択                                                                                                    
     }
