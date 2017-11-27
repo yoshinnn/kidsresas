@@ -39,7 +39,6 @@ function citySet(){
 	    document.getElementById("city").appendChild(op);
 	    
 
-	    //先に元のエレメント消さないと元の市町村が残ってしまってる
 	    for(var i = 0; i < ret.result.length; i++){
 		//console.log(ret.result[i].cityName);
 		let op = document.createElement("option");
