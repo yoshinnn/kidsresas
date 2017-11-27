@@ -34,7 +34,7 @@ function citySet(){
 	    while (parent.firstChild) parent.removeChild(parent.firstChild);
 	    
 	    let op = document.createElement("option");
-	    op.value = "";
+	    op.value = "-";
 	    op.text = "市町村を選ぶ";
 	    document.getElementById("city").appendChild(op);
 	    
