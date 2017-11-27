@@ -51,10 +51,9 @@ function citySet(){
 }
 
 //RESASの人口構成のページに直接リンクする
-function drawPopComp() {
+function linkToPopComp() {
 
     var deferred = new $.Deferred();
-    var apiPath = "api/v1/patents/locations";
 
     var prefnum = document.selbox.pref.selectedIndex;
     var prefcode = document.selbox.pref.options[prefnum].value;
