@@ -97,8 +97,12 @@ function linkToPopComp() {
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
     var cityname;
-    var scope = 0;
-    
+    var scope;
+    if(citycode == "-"){
+        scope = 3;//都道府県全体を選択                                                                                              
+    }else{
+        scope = 2;//市町村を選択                                                                                                    
+    }    
     var linkTo = "https://resas.go.jp/population-composition/#/transition/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     window.open(linkTo,'_blank');
@@ -114,13 +118,9 @@ function linkToPyramid() {
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
     var cityname;
-    var scope;
+    var scope = 0;
 
-    if(citycode == "-"){
-        scope = 2;//都道府県全体を選択                                                                                              
-    }else{
-        scope = 2;//市町村を選択                                                                                                    
-    }
+
     var linkTo = "https://resas.go.jp/population-composition/#/pyramid/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     window.open(linkTo,'_blank');
