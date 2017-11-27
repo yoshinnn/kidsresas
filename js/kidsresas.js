@@ -18,20 +18,26 @@ function selectType(types) {
 
     var bigSelectors = ["div#1","div#2","div#3","div#4"];    //セレクタがdiv#1,2,3,4のどれか選択された時他のセレクタをhiddenにする
     var middleSelectors = ["div#3-1","div#3-2","div#3-3","div#3-4","div#3-5"];
-    if(bigSelectors.indexOf(selector)>-1){
+    if(bigSelectors.indexOf(selector) > -1){
 	var index = bigSelectors.indexOf(selector);
-	if(selector!="div#3") {
+	if(selector != "div#3") {
 	    middleSelectors.forEach(function(value, i, midArray){
 		$(midArray[i]).addClass("hidden");
 	    });
 	}
-
+	
 	bigSelectors.splice(index,1);
 	bigSelectors.forEach(function(value, i, bigArray){
 	    $(bigArray[i]).addClass("hidden");
 	    console.log(bigSelectors[index]);
 	});
-    }
+    }else if(middleSelectors.indexOf(selector) > -1){
+	middleSelectors.splice(index,1);
+	middleSelectors.forEach(function(value, i, midArray){
+	    $(midArray[i]).addClass("hidden");
+	    console.log(midSelectors[index]);
+	});
+	}
     
 }
 
