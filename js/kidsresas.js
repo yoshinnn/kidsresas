@@ -21,13 +21,13 @@ function selectType(types) {
     if(index = bigSelectors.indexOf(selector)){
 	
 	if(selector!="div#3") {
-	    middleSelectors.forEach(function(value, i, array){
-		$(array[i]).addClass("hidden");
+	    middleSelectors.forEach(function(value, i, midArray){
+		$(midArray[i]).addClass("hidden");
 	    });
 	}
 	bigSelectors.splice(index,1);
-	bigSelectors.forEach(function(value, i, array){
-	    $(array[i]).addClass("hidden");
+	bigSelectors.forEach(function(value, i, bigArray){
+	    $(bigArray[i]).addClass("hidden");
 	});
     }
     
