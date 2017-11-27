@@ -17,7 +17,7 @@ function selectType(types) {
 
     div.setAttribute("id","chart_div");
     //document.getElementById("container").appendChild(div);
-    cont.insertBefore(div, cont.firstChild);
+    cont.insertBefore(div, cont[0].firstChild);
 
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
