@@ -72,16 +72,12 @@ function drawAgriChart() {
     var prefnum = document.selbox.pref.selectedIndex;
     var prefcode = document.selbox.pref.options[prefnum].value;
     var prefname = document.selbox.pref.options[prefnum].innerText;
-    console.log(prefcode);
-    console.log(prefname);
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
     var cityname;
     console.log(citycode);
     if(citycode == "-"){ 
-	cityname = prefname + "全体";
-	console.log(citycode);
-	console.log(cityname);
+	cityname = "全体";
     }else{
 	cityname = document.selbox.city.options[citynum].innerText;    	    
     }
