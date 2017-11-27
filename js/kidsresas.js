@@ -50,7 +50,21 @@ function citySet(){
     });   
 }
 
+//人口構成を表示
+function drawPopComp() {
 
+    var deferred = new $.Deferred();
+    var apiPath = "api/v1/poplation/composition/perYear";
+
+
+
+
+
+}
+
+
+
+//農業部門別販売金額を表示
 function drawAgriChart() {
     var deferred = new $.Deferred();
     var apiPath = "api/v1/agriculture/all/forStacked";
@@ -62,9 +76,11 @@ function drawAgriChart() {
     console.log(prefname);
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
-    var cityname = document.selbox.city.options[citynum].innerText;
-    console.log(citycode);
-    console.log(cityname);
+    if(citycode!=null){ 
+	var cityname = document.selbox.city.options[citynum].innerText;
+	console.log(citycode);
+	console.log(cityname);
+	}
     var data = new google.visualization.DataTable();
     data.addColumn('string', '種類');
     data.addColumn('number', '販売金額（百万円）');
