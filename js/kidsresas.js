@@ -77,18 +77,17 @@ function drawAgriChart() {
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
     var cityname;
-    if(citycode!=null){ 
-	cityname = document.selbox.city.options[citynum].innerText;
+    if(citycode == "-"){ 
+	cityname = prefname + "全体";
 	console.log(citycode);
 	console.log(cityname);
-	}else{
-	cityname = "-"    
-	    
-	}
+    }else{
+	cityname = document.selbox.city.options[citynum].innerText;    	    
+    }
     var data = new google.visualization.DataTable();
     data.addColumn('string', '種類');
     data.addColumn('number', '販売金額（百万円）');
-
+    
     $.ajax({
 	type: 'GET',
 	url: baseUrl + apiPath,
