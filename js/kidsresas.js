@@ -76,10 +76,14 @@ function drawAgriChart() {
     console.log(prefname);
     var citynum = document.selbox.city.selectedIndex;
     var citycode = document.selbox.city.options[citynum].value;
+    var cityname;
     if(citycode!=null){ 
-	var cityname = document.selbox.city.options[citynum].innerText;
+	cityname = document.selbox.city.options[citynum].innerText;
 	console.log(citycode);
 	console.log(cityname);
+	}else{
+	cityname = "-"    
+	    
 	}
     var data = new google.visualization.DataTable();
     data.addColumn('string', '種類');
