@@ -15,6 +15,7 @@ function selectType(types) {
     }
     console.log(selector);
     $(selector).removeClass("hidden");
+
 }
 
 function citySet(){
