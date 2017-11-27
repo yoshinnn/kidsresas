@@ -36,7 +36,7 @@ function selectType(types) {
 	middleSelectors.splice(index,1);
 	middleSelectors.forEach(function(value, i, midArray){
 	    $(midArray[i]).addClass("hidden");
-	    console.log(midSelectors[index]);
+	    console.log(middleSelectors[index]);
 	});
 	}
     
