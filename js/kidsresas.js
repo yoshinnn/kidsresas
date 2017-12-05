@@ -131,7 +131,7 @@ function linkToPyramid() {
 
 }
 
-
+//RESASの人口増減率のページに直接リンクする
 function linkToPopSum() {
 
     var prefnum = document.selbox.pref.selectedIndex;
@@ -147,7 +147,7 @@ function linkToPopSum() {
         scope = 2;//市町村を選択                                                                                                                                
     }
 
-    var linkTo = "https://resas.go.jp/population-composition/#/pyramid/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
+    var linkTo = "https://resas.go.jp/population-sum/#/graph/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
