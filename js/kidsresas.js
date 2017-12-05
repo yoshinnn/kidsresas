@@ -304,7 +304,7 @@ function linkToMuniVal() {
     }
     var larClass = "-";
     var midClass = "-";
-    var year = 2015;
+    var year = 2012;
 
     var linkTo = "https://resas.go.jp/municipality-value/#/graph/"+prefcode+"/"+citycode+"/"+year+"/"+larClass+"/"+midClass+"/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
