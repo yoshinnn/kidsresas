@@ -153,33 +153,6 @@ function linkToPopSum() {
 
 }
 
-//RESASの人口増減率のページに直接リンクする                                                                                                                     
-function linkToPopSum() {
-
-    var prefnum = document.selbox.pref.selectedIndex;
-    var prefcode = document.selbox.pref.options[prefnum].value;
-    var prefname = document.selbox.pref.options[prefnum].innerText;
-    var citynum = document.selbox.city.selectedIndex;
-    var citycode = document.selbox.city.options[citynum].value;
-    var cityname;
-    var scope = 0;
-    if(citycode == "-"){
-        scope = 1;//都道府県全体を選択
-    }else{
-        scope = 2;//市町村を選択                                                                                                                                                                
-    }
-
-    var linkTo = "https://resas.go.jp/population-sum/#/graph/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
-    console.log(linkTo);
-    window.open(linkTo,'_blank');
-
-}
-
-
-
-
-
-
 
 //RESASの人口増減率のページに直接リンクする
 function linkToPopFur() {
@@ -211,26 +184,24 @@ function linkToPopFur() {
 
 //RESASの国籍別訪問者数のグラフに直接リンクする
 function linkToTourVisitor() {
+//都道府県単位でのみ選択
+//市町村コードは県内ならどれでも可、URLを見る限り県庁所在地で固定している模様
 
     var prefnum = document.selbox.pref.selectedIndex;
     var prefcode = document.selbox.pref.options[prefnum].value;
     var prefname = document.selbox.pref.options[prefnum].innerText;
     
-    var citynum = document.selbox.city;
-    console.log(citynum);
-    var citycode = document.selbox.city.options[citynum].value;
+    var citycode = document.selbox.city.options[0].value;
+    console.log(citycode);
     var cityname;
     var scope = 0;
     var year = 2011;
-    var term = "-";//1-3月期:2, 4-6月期:3, 7-9月期:4, 10-12月期:5
+    var term = "1";//すべての期間:1, 1-3月期:2, 4-6月期:3, 7-9月期:4, 10-12月期:5
+    var region = "-";
+    var country = "-";
     var purpose = "1";//すべての目的:1, 観光・レジャー目的:2
-    if(citycode == "-"){
-        scope = 0;//都道府県全体を選択                                                                                                                                 
-    }else{
-        scope = 2;//市町村を選択                                                                                                                                       
-    }
-
-    var linkTo = "https://resas.go.jp/tourrism-foreigners/#/to-visitor/9.139551352398794/35.07185405/137.44284295"+prefcode+"/"+citycode+"";
+    
+    var linkTo = "https://resas.go.jp/tourrism-foreigners/#/to-visitor/9.139551352398794/35.07185405/137.44284295"+prefcode+"/"+citycode+"/1/"+year+"/"+term+"/"+region+"/"+country+"/"+purpose;
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
