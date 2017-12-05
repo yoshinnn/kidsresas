@@ -222,8 +222,8 @@ function linkToTourFromVisitor() {
     var region = "-";
     var country = "-";
     var purpose = "1";//すべての目的:1, 観光・レジャー目的:2                                                                                                           
-
-    var linkTo = "https://resas.go.jp/tourism-foreigners/#/from-visitor/9.139551352398794/35.07185405/137.44284295/"+prefcode+"/"+citycode+"/1/"+year+"/"+scope+"/"+term+"/"+region+"/"+country+"/"+purpose;
+11/11100/0/2012/3/-/-/1
+    var linkTo = "https://resas.go.jp/tourism-foreigners/#/from-visitor/9.139551352398794/35.07185405/137.44284295/"+prefcode+"/"+citycode+"/"+scope+"/"+year+"/"+term+"/"+region+"/"+country+"/"+purpose;
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
