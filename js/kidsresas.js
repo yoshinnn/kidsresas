@@ -178,13 +178,8 @@ function linkToPopFur() {
 }
 
 
-
-
-
-
-
 //RESASの国籍別訪問者数のグラフに直接リンクする
-function linkToTourVisitor() {
+function linkToTourToVisitor() {
 //都道府県単位でのみ選択
 //市町村コードは県内ならどれでも可、URLを見る限り県庁所在地で固定している模様
 
@@ -208,6 +203,31 @@ function linkToTourVisitor() {
 
 }
 
+
+//RESASの国籍別訪問者数のグラフに直接リンクする                                                                                                                        
+function linkToTourFromVisitor() {
+//都道府県単位でのみ選択                                                                                                                                               
+//市町村コードは県内ならどれでも可、URLを見る限り県庁所在地で固定している模様                                                                                          
+
+    var prefnum = document.selbox.pref.selectedIndex;
+    var prefcode = document.selbox.pref.options[prefnum].value;
+    var prefname = document.selbox.pref.options[prefnum].innerText;
+
+    var citycode = document.selbox.city.options[1].value;//一番上は「市町村を選ぶ」のため                                                                              
+    console.log(citycode);
+    var cityname;
+    var scope = 0;
+    var year = 2011;
+    var term = "1";//すべての期間:1, 1-3月期:2, 4-6月期:3, 7-9月期:4, 10-12月期:5                                                                                      
+    var region = "-";
+    var country = "-";
+    var purpose = "1";//すべての目的:1, 観光・レジャー目的:2                                                                                                           
+
+    var linkTo = "https://resas.go.jp/tourism-foreigners/#/to-visitor/9.139551352398794/35.07185405/137.44284295/"+prefcode+"/"+citycode+"/1/"+year+"/"+term+"/"+region+"/"+country+"/"+purpose;
+    console.log(linkTo);
+    window.open(linkTo,'_blank');
+
+}
 
 
 
