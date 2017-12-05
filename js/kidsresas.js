@@ -241,11 +241,11 @@ function linkToTourDest() {
     var cityname;
     var scope = 0;
     if(citycode == "-"){
-        scope = 1;//都道府県全体を選択                                                                                                                                      
+        scope = 1;//都道府県全体を選択
+	citycode = document.selbox.city.options[1].value;//一番上は「市町村を選ぶ」のため 
     }else{
         scope = 2;//市町村を選択                                                                                                                                            
     }
-    var scope = 0;
     var year = 2015;
     var month = "-";//年度:- 月:1,2,3,...
     var region = "-";
