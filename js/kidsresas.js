@@ -176,6 +176,11 @@ function linkToPopSum() {
 }
 
 
+
+
+
+
+
 //RESASの人口増減率のページに直接リンクする
 function linkToPopFur() {
 //グラフは市町村単位でのみ表示
@@ -197,6 +202,42 @@ function linkToPopFur() {
     window.open(linkTo,'_blank');
 
 }
+
+
+
+
+
+
+
+//RESASの国籍別訪問者数のグラフに直接リンクする
+function linkToTourVisitor() {
+
+    var prefnum = document.selbox.pref.selectedIndex;
+    var prefcode = document.selbox.pref.options[prefnum].value;
+    var prefname = document.selbox.pref.options[prefnum].innerText;
+    
+    var citynum = document.selbox.city;
+    console.log(citynum);
+    var citycode = document.selbox.city.options[citynum].value;
+    var cityname;
+    var scope = 0;
+    var year = 2011;
+    var term = "-";//1-3月期:2, 4-6月期:3, 7-9月期:4, 10-12月期:5
+    var purpose = "1";//すべての目的:1, 観光・レジャー目的:2
+    if(citycode == "-"){
+        scope = 0;//都道府県全体を選択                                                                                                                                 
+    }else{
+        scope = 2;//市町村を選択                                                                                                                                       
+    }
+
+    var linkTo = "https://resas.go.jp/tourrism-foreigners/#/to-visitor/9.139551352398794/35.07185405/137.44284295"+prefcode+"/"+citycode+"";
+    console.log(linkTo);
+    window.open(linkTo,'_blank');
+
+}
+
+
+
 
 //農業部門別販売金額を表示
 function drawAgriChart() {
