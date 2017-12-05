@@ -252,10 +252,10 @@ function linkToTourDest() {
     var country = "-";
     var way = "1";//自動車:1, 公共交通:2
     var date = "1";//平日:1, 休日:2
-// 11/11100/1/0(スコープ)/2015/-(元の散布図の時期)/2(平日休日)/2(交通手段)/2015/-(表示年月)
+// 11/11100/1(スコープ)/0/2015/-(元の散布図の時期)/2(平日休日)/2(交通手段)/2015/-(表示年月)
 // 1/01100/2/0/2014/-/1/1/2014/-
     
-    var linkTo = "https://resas.go.jp/tourism-destination/#/toList/9.139551352398794/35.07185405/137.44284295/"+prefcode+"/"+citycode+"/2/"+scope+"/"+year+"/"+month+"/"+date+"/"+way+"/"+year+"/"+month;
+    var linkTo = "https://resas.go.jp/tourism-destination/#/toList/9.139551352398794/35.07185405/137.44284295/"+prefcode+"/"+citycode+"/"+scope+"/0/"+year+"/"+month+"/"+date+"/"+way+"/"+year+"/"+month;
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
