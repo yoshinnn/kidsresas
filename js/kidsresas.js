@@ -192,7 +192,7 @@ function linkToTourVisitor() {
     var prefcode = document.selbox.pref.options[prefnum].value;
     var prefname = document.selbox.pref.options[prefnum].innerText;
     
-    var citycode = document.selbox.city.options[0].value;
+    var citycode = document.selbox.city.options[1].value;//一番上は「市町村を選ぶ」のため
     console.log(citycode);
     var cityname;
     var scope = 0;
