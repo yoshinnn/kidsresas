@@ -63,8 +63,8 @@ function selectType(types) {
 
 function hiddenButtons (types) {
 
-    var node = document.getElementsByClassName('container');
-    console.log(node);
+    var children = document.getElementsByClassName('container')[0].children;
+    console.log(children);
 //    for(i = 0;i < )
 
 
