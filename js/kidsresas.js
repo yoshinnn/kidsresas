@@ -7,17 +7,18 @@ google.charts.load('current', {packages: ['corechart', 'bar']});
 
 function selectType(types) {
     
+
+    //続けて項目を選択した時に、前に表示している地図を削除する
     var node = document.getElementById('chart_div');
     if(node != null){
 	node.parentNode.removeChild(node);
     }
-    //container下に
     var div = document.createElement('div');
-
     div.setAttribute("id","chart_div");
-    //document.getElementById("container").appendChild(div);
     document.body.appendChild(div);
 
+
+    //セレクタを作成、選択された項目のボタンを非表示から表示するよう変更
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
 	if (i > 0) {
@@ -25,17 +26,19 @@ function selectType(types) {
 	    console.log("types["+i+"]:"+types[i]);
 	}
 	selector += types[i];
-	
+	console.log(selector);
     }
+    $(selector).removeClass("hidden");    //hidden属性を削除することでボタンを表示する
     
-    console.log(selector);
-    $(selector).removeClass("hidden");
-    
-    var bigSelectors = ["div#1","div#2","div#3","div#4"];    //セレクタがdiv#1,2,3,4のどれか選択された時他のセレクタをhiddenにする
-    var middleSelectors = ["div#3-1","div#3-2","div#3-3","div#3-4","div#3-5"];
+    hiddenButtons(types);
+
+    //続けて項目を選択された時に、前に選択されたボタンを非表示にする
+    //例:1を選択して1-1,1-2,1-3,1-4のボタンが表示、続けて2を選択した時に前の1-1,1-2,1-3,1-4を表示されたままにしない
+    var bigSelectors = ["div#1","div#2","div#3","div#4"];    //大分類
+    var middleSelectors = ["div#3-1","div#3-2","div#3-3","div#3-4","div#3-5"];    //中分類,増えたら追加していく
     if(bigSelectors.indexOf(selector) > -1){
 	var index = bigSelectors.indexOf(selector);
-	if(selector != "div#3") {
+	if(types.length < 2) {
 	    middleSelectors.forEach(function(value, i, midArray){
 		$(midArray[i]).addClass("hidden");
 	    });
@@ -57,6 +60,20 @@ function selectType(types) {
     
 }
 
+
+function hiddenButtons (types) {
+
+    var child = document.getElementByClass('container').childNodes;
+    console.log(child);
+
+
+
+
+}
+
+
+
+//都道府県を選択した時に市町村を取得しドロップダウンリストに追加
 function citySet(){
     var baseUrl = "https://opendata.resas-portal.go.jp/";
     var apiKey = "M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh";
