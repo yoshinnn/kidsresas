@@ -22,8 +22,10 @@ function selectType(types) {
     for (var i = 0; i < types.length; i++) {
 	if (i > 0) {
 	    selector += "-";
+	    console.log(i);
 	}
 	selector += types[i];
+	
     }
     
     console.log(selector);
