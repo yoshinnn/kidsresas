@@ -66,7 +66,7 @@ function hiddenButtons (types) {
     var childrenNode = document.getElementsByClassName('container')[0].children;
     console.log(childrenNode);
     console.log(childrenNode.length);
-    console.log(childrenNode[1]);
+    console.log(childrenNode[1].id);
     for(i = 0;i < childrenNode.lentgh - 1; i++) {
 	console.log(childrenNode[i]);
 	
