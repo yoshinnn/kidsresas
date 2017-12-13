@@ -68,7 +68,7 @@ function hiddenButtons (types) {
     console.log(childrenNode.length);
     console.log(childrenNode[1].id);
     for(i = 0;i < childrenNode.lentgh - 1; i++) {
-	console.log(childrenNode[i]);
+	console.log(childrenNode[i].id);
 	
 	
     }
