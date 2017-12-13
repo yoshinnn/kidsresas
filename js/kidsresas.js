@@ -70,7 +70,7 @@ function hiddenButtons (types) {
 
     for (var i = 1; i < childrenNode.length-1; i++) {
 	console.log(childrenNode[i].id);
-	console.log(childrenNode[i].classList[0]);
+	console.log(childrenNode[i].classList.length);
     }
 
 
