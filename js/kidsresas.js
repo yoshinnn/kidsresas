@@ -77,17 +77,17 @@ function hiddenButtons (types) {
             console.log("types["+i+"]:"+types[i]);
         }
         typeID += types[i];
-        console.log("typeID:"+typeID);
+
     }
 
-    
-    console.log("types[0]:"+types[0]);
+    console.log("typeID:"+typeID);    
+
     for (var i = 1; i < childrenNode.length-1; i++) {
-	console.log("childNodeID:"+childrenNode[i].id);
+
 	console.log("childNodeLength:"+childrenNode[i].classList.length);//2のときhidden
 	var nodeID = String(childrenNode[i].id);
-
-	if (childrenNode[i].classList.length < 2 && nodeID.indexOf(String(types[0])) == -1) {
+	console.log("nodeID:"+nodeID);
+	if (childrenNode[i].classList.length < 2 && nodeID.indexOf(typeID) == -1) {
 	    console.log("not hidden yet");
 	    var selector = "div#" + nodeID;
 	    $(selector).addClass("hidden");
