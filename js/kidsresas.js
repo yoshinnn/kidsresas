@@ -90,7 +90,7 @@ function hiddenButtons (types) {
 	if (childrenNode[i].classList.length < 2 && nodeID.indexOf(String(types[0])) == -1) {
 	    console.log("not hidden yet");
 	    var selector = "div#" + nodeID;
-	    $(selector.)addClass("hidden");
+	    $(selector).addClass("hidden");
 	}
     }
 
