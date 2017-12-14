@@ -67,13 +67,13 @@ function hiddenButtons (types) {
     console.log(childrenNode);
     console.log(childrenNode.length);
 
-
+    console.log("types[0]:"+types[0]);
     for (var i = 1; i < childrenNode.length-1; i++) {
 	console.log("childNodeID:"+childrenNode[i].id);
 	console.log("childNodeLength:"+childrenNode[i].classList.length);//2のときhidden
-	nodeId = childrenNode[i].id + '';
-	console.log("types[0]:"+types[0]);
-	if (childrenNode[i].classList.length < 2 && nodeId.indexOf(types[0]) < -1) {
+	nodeId = String(childrenNode[i].id);
+
+	if (childrenNode[i].classList.length < 2 && nodeId.indexOf(String(types[0])) < -1) {
 	    console.log("not hidden yet");
 
 	}
