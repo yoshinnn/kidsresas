@@ -87,7 +87,7 @@ function hiddenButtons (types) {
 	console.log("childNodeLength:"+childrenNode[i].classList.length);//2のときhidden
 	var nodeID = String(childrenNode[i].id);
 	console.log("nodeID:"+nodeID);
-	if (childrenNode[i].classList.length < 2 && nodeID.indexOf(typeID) == -1) {
+	if (childrenNode[i].classList.length < 2 && typeID.indexOf(nodeID) == -1) {
 	    console.log("not hidden yet");
 	    var selector = "div#" + nodeID;
 	    $(selector).addClass("hidden");
