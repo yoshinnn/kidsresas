@@ -73,7 +73,7 @@ function hiddenButtons (types) {
 	console.log("childNodeLength:"+childrenNode[i].classList.length);//2のときhidden
 	nodeId = String(childrenNode[i].id);
 
-	if (childrenNode[i].classList.length < 2 && nodeId.indexOf(String(types[0])) < -1) {
+	if (childrenNode[i].classList.length < 2 && nodeId.indexOf(String(types[0])) == -1) {
 	    console.log("not hidden yet");
 
 	}
