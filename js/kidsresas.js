@@ -82,7 +82,7 @@ function hiddenButtons (types) {
 
     console.log("typeID:"+typeID);    
 
-    for (var i = 1; i < childrenNode.length-1; i++) {
+    for (var i = 1; i < childrenNode.length; i++) {
 
 	console.log("childNodeLength:"+childrenNode[i].classList.length);//2のときhidden
 	var nodeID = String(childrenNode[i].id);
