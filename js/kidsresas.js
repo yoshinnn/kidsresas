@@ -77,7 +77,7 @@ function hiddenButtons (types) {
             console.log("types["+i+"]:"+types[i]);
         }
         typeID += types[i];
-        console.log(selector);
+        console.log("typeID:"+typeID);
     }
 
     
