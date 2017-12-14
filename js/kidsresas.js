@@ -29,40 +29,14 @@ function selectType(types) {
 	console.log(selector);
     }
     $(selector).removeClass("hidden");    //hidden属性を削除することでボタンを表示する
-    
-    hiddenButtons(types);
 
     //続けて項目を選択された時に、前に選択されたボタンを非表示にする
-    //例:1を選択して1-1,1-2,1-3,1-4のボタンが表示、続けて2を選択した時に前の1-1,1-2,1-3,1-4を表示されたままにしない
-/*
-    var bigSelectors = ["div#1","div#2","div#3","div#4"];    //大分類
-    var middleSelectors = ["div#3-1","div#3-2","div#3-3","div#3-4","div#3-5"];    //中分類,増えたら追加していく
-    if(bigSelectors.indexOf(selector) > -1){
-	var index = bigSelectors.indexOf(selector);
-	if(types.length < 2) {
-	    middleSelectors.forEach(function(value, i, midArray){
-		$(midArray[i]).addClass("hidden");
-	    });
-	}
-	
-	bigSelectors.splice(index,1);
-	bigSelectors.forEach(function(value, i, bigArray){
-	    $(bigArray[i]).addClass("hidden");
-	    console.log(bigSelectors[index]);
-	});
-    }else if(middleSelectors.indexOf(selector) > -1){
-	var index = middleSelectors.indexOf(selector);
-	middleSelectors.splice(index,1);
-	middleSelectors.forEach(function(value, i, midArray){
-	    $(midArray[i]).addClass("hidden");
-	    console.log(middleSelectors[index]);
-	});
-	}
-*/
-    
+    //例:1を選択して1-1,1-2,1-3,1-4のボタンが表示、続けて2を選択した時に前の1-1,1-2,1-3,1-4を表示されたままにしない    
+    hiddenButtons(types);
+
 }
 
-
+//続けて項目を選択された時に、前に選択されたボタンを非表示にする
 function hiddenButtons (types) {
 
     var childrenNode = document.getElementsByClassName('container')[0].children;
