@@ -2,14 +2,36 @@
 var http = require("http");
 var socketIO = require("socket.io");
 var fs = require("fs");
-
+var url = require('url');
+var path = require('path');
+var mime = require('mime');
 // node.jsでWebServerを作ります。                                                                                     
 // アクセスされたら、クライアントに表示するsyncCanvas.htmlを返します。                                                
 var server = http.createServer(function (req, res) {
-        res.writeHead(200, {"Content-Type":"text/html"});
+    
+    var path;
+    if(req.url == '/') {
+	path = './index.html';
+    } else {
+	path = '.' + req.url;
+    }
+  // Read File and Write
+  fs.readFile(path, function (err, data) {
+    if(err) {
+      res.writeHead(404, {"Content-Type": "text/plain"});
+      return res.end(req.url + ' not found.');
+    }
+    var type = mime.lookup(path);
+    res.writeHead(200, {"Content-Type": type});
+    res.write(data);
+    res.end();
+  });    
+/*    res.writeHead(200, {"Content-Type": "text/html"});
     var output = fs.readFileSync("./index.html", "utf-8");
-        res.end(output);
-    });
+    res.end(output);
+*/
+
+});
 server.listen(2222);
 
 // socket.IOを用いたリアルタイムWebを実装します。                                                                     
