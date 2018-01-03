@@ -359,6 +359,35 @@ function linkToMuniVal() {
 
 //農業部門別販売金額を表示
 function drawAgriChart() {
+    //続けて項目を選択した時に、前に表示している地図を削除する                                                                     
+    var node = document.getElementById('chart_div');
+    if(node != null){
+        node.parentNode.removeChild(node);
+        var node = document.getElementById('wrapper');
+        node.parentNode.removeChild(node);
+
+    }
+    var div = document.createElement('div');
+
+    div.setAttribute("id","wrapper");
+    div.setAttribute("class","wrapper");
+    document.body.appendChild(div);
+
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute("id","myCanvas");
+    document.getElementById('wrapper').appendChild(canvas);
+    var wrapper = document.getElementById('wrapper');
+    wrapper.addEventListener("mouseover", drawLines, false)
+    var div = document.createElement('div');
+    div.setAttribute("id","chart_div");
+    document.getElementById("wrapper").appendChild(div);
+
+    var container = document.getElementById("container");
+    var rect = container.getBoundingClientRect();
+    var cStart = rect.top + rect.height + window.pageYOffset;
+    console.log("canvas開始位置:" + cStart);
+    sizing(cStart);
+
     var deferred = new $.Deferred();
     var apiPath = "api/v1/agriculture/all/forStacked";
 
