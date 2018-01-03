@@ -8,15 +8,19 @@
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="./js/materialize.min.js"></script>
       <script type="text/javascript" src="./js/kidsresas.js"></script>
+     <!-- ここでsocket.IOのライブラリを読み込む -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
       <script type="text/javascript" src="./js/client.js"></script>
       
     </head>
 <body>
   <!-- Main -->
 
-    <div class="wrapper" id="wrapper"><canvas id="myCanvas"></canvas></div>
-
-  <div class="main">
+<!--    <div class="wrapper" id="wrapper"><canvas id="myCanvas"></canvas>   -->
+      <!--      <section id="body"> -->
+      <!--
+    <div class="main">
     <div class="toolbar">
       <ul>
         <li id="black"> </li>
@@ -29,9 +33,9 @@
       </ul>
     </div>
     <div style="clear:left;"></div>
-
+    
   </div>
-
+  -->
 <h2 style="color: #04a; font-size: 24pt; font-family: 'Open Sans';">グラフる？</h2>
 
 <form name="selbox">
@@ -93,7 +97,7 @@
 </select>
 </form>
 
-<div class="container">
+<div class="container" id="container">
 <div class="buttons">
 <ul>
 <li><a class="raised type" href="javascript:void(0)" onclick="selectType([1]); return false;">1</a> 人口
@@ -196,11 +200,15 @@
 
 </div> <!-- container -->
 
- <div id="chart_div"></div>
 
-     <!-- ここでsocket.IOのライブラリを読み込む -->
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<div class="wrapper" id="wrapper">
+  <canvas id="myCanvas">
+ <div id="chart_div"/>
+ </canvas>
+</div>
+
+<!-- </body>-->
+
 
 </body>
 </html>

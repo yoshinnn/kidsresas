@@ -12,12 +12,25 @@ function selectType(types) {
     var node = document.getElementById('chart_div');
     if(node != null){
 	node.parentNode.removeChild(node);
+	var node = document.getElementById('wrapper');
+	node.parentNode.removeChild(node);
+
     }
     var div = document.createElement('div');
-    div.setAttribute("id","chart_div");
+
+    div.setAttribute("id","wrapper");
+    div.setAttribute("class","wrapper");
     document.body.appendChild(div);
 
-
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute("id","myCanvas");
+    document.getElementById('wrapper').appendChild(canvas);
+    var wrapper = document.getElementById('wrapper');
+    wrapper.addEventListener("mouseover", drawLines, false)
+    var div = document.createElement('div');
+    div.setAttribute("id","chart_div");
+    document.getElementById("wrapper").appendChild(div);
+    
     //セレクタを作成、選択された項目のボタンを非表示から表示するよう変更
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
@@ -34,6 +47,19 @@ function selectType(types) {
     //例:1を選択して1-1,1-2,1-3,1-4のボタンが表示、続けて2を選択した時に前の1-1,1-2,1-3,1-4を表示されたままにしない    
     hiddenButtons(types);
 
+    var container = document.getElementById("container");
+    var rect = container.getBoundingClientRect();
+    var cStart = rect.top + rect.height + window.pageYOffset;
+    console.log("canvas開始位置:" + cStart);
+    sizing(cStart);
+}
+
+function sizing(cStart){
+    console.log("In sizing:" + cStart);
+    var newHeight = $("#wrapper").height() - cStart;
+    $("#myCanvas").attr({height:newHeight});
+    $("#myCanvas").css({top:cStart});
+    $("#myCanvas").attr({width:$("#wrapper").width()});
 }
 
 //続けて項目を選択された時に、前に選択されたボタンを非表示にする
@@ -378,8 +404,14 @@ function drawAgriChart() {
                 height: 600 
 	    };
 	    
-	    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+	    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));//chart_div
 	    chart.draw(data, options);
+//	    console.log($("div").find("aria-hidden").prevObject[17].removeAttr("aria-hidden"));
+//	    console.log($("div + aria-hidden").find().removeAttr("aria-hidden"));
+//	    console.log($('#chart_div').first().children().find("aria-hidden"));
+	    
+//	    $('div').removeAttr('aria-hidden');
+//	    $('div').removeAttr('display');
 	    deferred.resolve();
         }
     });
