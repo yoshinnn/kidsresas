@@ -26,7 +26,7 @@ function selectType(types) {
     canvas.setAttribute("id","myCanvas");
     document.getElementById('wrapper').appendChild(canvas);
     var wrapper = document.getElementById('wrapper');
-    wrapper.addEventListener("mouseover", drawLines, false)
+//    wrapper.addEventListener("load", drawLines, false)
     var div = document.createElement('div');
     div.setAttribute("id","chart_div");
     document.getElementById("wrapper").appendChild(div);
@@ -377,7 +377,7 @@ function drawAgriChart() {
     canvas.setAttribute("id","myCanvas");
     document.getElementById('wrapper').appendChild(canvas);
     var wrapper = document.getElementById('wrapper');
-    wrapper.addEventListener("mouseover", drawLines, false)
+    wrapper.addEventListener("click", drawLines, false)
     var div = document.createElement('div');
     div.setAttribute("id","chart_div");
     document.getElementById("wrapper").appendChild(div);

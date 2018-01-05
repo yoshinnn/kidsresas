@@ -39,7 +39,7 @@ window.addEventListener("load", function () {
     var h = 400;
     var drawing = false;
     var oldPos;
-    
+    var clicking = false;
     // Canvasを初期化する
     canvas.width = w;
     canvas.height = h;
@@ -66,16 +66,20 @@ window.addEventListener("load", function () {
         return {x:mouseX, y:mouseY};
       }
     
-    // ここからは、Canvasに描画する為の処理                             
+    // ここからは、Canvasに描画する為の処理
+/*
     canvas.addEventListener("mousedown", function (event) {
         console.log("mousedown");
         drawing = true;
         oldPos = getPos(event);
     }, false);
+
+
     canvas.addEventListener("mouseup", function () {
         console.log("mouseup");
         drawing = false;
     }, false);
+*/
     canvas.addEventListener("mousemove", function (event) {
         var pos = getPos(event);
         console.log("mousemove : x=" + pos.x + ", y=" + pos.y + ", drawing=" + drawing);
@@ -100,7 +104,7 @@ window.addEventListener("load", function () {
     // 色や太さを選択した場合の処理
     // 選択した結果を、Canvasに設定して、
     // socket.IOサーバーにも送付している
-    $("#black").click(function () {c.strokeStyle = "black";socket.emit("color", "black");});
+ //   $("#black").click(function () {c.strokeStyle = "black";socket.emit("color", "black");});
 /*
     $("#blue").click(function () {c.strokeStyle = "blue";socket.emit("color", "blue");});
     $("#red").click(function () {c.strokeStyle = "red";socket.emit("color", "red");});
@@ -120,7 +124,24 @@ window.addEventListener("load", function () {
         c.stroke();
         c.closePath();
     });
-    
+
+
+    canvas.addEventListener("click", function (event) {
+        console.log("click");
+        var pos = getPos(event);
+        console.log("x=" + pos.x + ", y=" + pos.y);
+        console.log(document.getElementById('question'));
+        socket.emit("clicked", pos);
+    }, false);
+
+
+
+    socket.on("clicked", function (data) {
+        console.log("on click : " + data);
+        c.drawImage(document.getElementById('question'),data.x,data.y,20,20);
+    })
+
+/*    
     // socket.IOサーバーから色情報を受け取った場合の処理
     // Canvasに色を設定している
     socket.on("color", function (data) {
@@ -136,7 +157,7 @@ window.addEventListener("load", function () {
         c.lineWidth = data;
     });
     
-    
+*/  
 }, false);
       
 function drawLines() {
@@ -168,67 +189,18 @@ function drawLines() {
         var mouseY = event.touches[0].clientY - $(canvas).position().top + scrollY();
         return {x:mouseX, y:mouseY};
     }
-    
-    canvas.addEventListener("mousedown", function (event) {
-        console.log("mousedown");
-        drawing = true;
-        oldPos = getPos(event);
-    }, false);
-    canvas.addEventListener("mouseup", function () {
-        console.log("mouseup");
-        drawing = false;
-    }, false);
-    canvas.addEventListener("mousemove", function (event) {
+    canvas.addEventListener("click", function (event) {
+        console.log("click");
         var pos = getPos(event);
-        console.log("mousemove : x=" + pos.x + ", y=" + pos.y + ", drawing=" + drawing);
-        if (drawing) {
-            c.beginPath();
-            c.moveTo(oldPos.x, oldPos.y);
-            c.lineTo(pos.x, pos.y);
-            c.stroke();
-            c.closePath();
-            socket.emit("draw", {before:oldPos, after:pos});
-            oldPos = pos;
-        }
+        console.log("x=" + pos.x + ", y=" + pos.y);
+	console.log(document.getElementById('question'));
+        socket.emit("clicked", pos);
     }, false);
-        // 色や太さを選択した場合の処理                                                                                                
-    // 選択した結果を、Canvasに設定して、                                                                                          
-    // socket.IOサーバーにも送付している                                                                                           
-    $("#black").click(function () {c.strokeStyle = "black";socket.emit("color", "black");});
-/*                                                                                                                                 
-    $("#blue").click(function () {c.strokeStyle = "blue";socket.emit("color", "blue");});                                          
-    $("#red").click(function () {c.strokeStyle = "red";socket.emit("color", "red");});                                             
-    $("#green").click(function () {c.strokeStyle = "green";socket.emit("color", "green");});                                       
-    $("#small").click(function () {c.lineWidth = 5;socket.emit("lineWidth", 5);});                                                 
-    $("#middle").click(function () {c.lineWidth = 10;socket.emit("lineWidth", 10);});                                              
-    $("#large").click(function () {c.lineWidth = 20;socket.emit("lineWidth", 20);});                                               
-*/
-
-    // socket.IOサーバーから描画情報を受け取った場合の処理                                                                         
-    // 受け取った情報を元に、Canvasに描画を行う                                                                                    
-    socket.on("draw", function (data) {
-        console.log("on draw : " + data);
-        c.beginPath();
-        c.moveTo(data.before.x, data.before.y);
-        c.lineTo(data.after.x, data.after.y);
-        c.stroke();
-        c.closePath();
-    });
-
-    // socket.IOサーバーから色情報を受け取った場合の処理                                                                           
-    // Canvasに色を設定している                                                                                                    
-    socket.on("color", function (data) {
-        console.log("on color : " + data);
-        c.strokeStyle = data;
-    });
 
 
-    // socket.IOサーバーから線の太さ情報を受け取った場合の処理                                                                     
-    // Canvasに線の太さを設定している                                                                                              
-    socket.on("lineWidth", function (data) {
-        console.log("on lineWidth : " + data);
-        c.lineWidth = data;
-    });
 
-
+    socket.on("clicked", function (data) {
+        console.log("on click : " + data);
+	c.drawImage(document.getElementById('question'),data.x,data.y,20,20);
+    })
 }

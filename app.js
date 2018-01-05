@@ -49,7 +49,11 @@ io.sockets.on("connection", function (socket) {
                 console.log(data);
                 socket.broadcast.emit("draw", data);
             });
-
+        socket.on("clicked", function (data) {
+                console.log(data);
+                socket.broadcast.emit("clicked", data);
+            });
+    
         // 色変更情報がクライアントからきたら、                                                                       
         // 他ユーザーへ変更後の色を通知します。                                                                       
         socket.on("color", function (color) {
