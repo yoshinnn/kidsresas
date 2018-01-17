@@ -30,7 +30,7 @@ function selectType(types) {
     var div = document.createElement('div');
     div.setAttribute("id","chart_div");
     document.getElementById("wrapper").appendChild(div);
-    
+//window.addEventListener("load",drawLines, false);    
     //セレクタを作成、選択された項目のボタンを非表示から表示するよう変更
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
@@ -359,6 +359,7 @@ function linkToMuniVal() {
 
 //農業部門別販売金額を表示
 function drawAgriChart() {
+    var socket = io.connect("/");
     //続けて項目を選択した時に、前に表示している地図を削除する                                                                     
     var node = document.getElementById('chart_div');
     if(node != null){
@@ -375,13 +376,15 @@ function drawAgriChart() {
 
     var canvas = document.createElement('canvas');
     canvas.setAttribute("id","myCanvas");
+    canvas.setAttribute("onClick","drawLines()");
     document.getElementById('wrapper').appendChild(canvas);
+    
     var wrapper = document.getElementById('wrapper');
-    wrapper.addEventListener("click", drawLines, false)
+    
     var div = document.createElement('div');
     div.setAttribute("id","chart_div");
     document.getElementById("wrapper").appendChild(div);
-
+    //wrapper.addEventListener("load", drawLines, false)
     var container = document.getElementById("container");
     var rect = container.getBoundingClientRect();
     var cStart = rect.top + rect.height + window.pageYOffset;
@@ -441,6 +444,15 @@ function drawAgriChart() {
 	    
 //	    $('div').removeAttr('aria-hidden');
 //	    $('div').removeAttr('display');
+	        var socket = io.connect("/");
+	    var canvas = document.getElementById("myCanvas");
+	    var c = canvas.getContext("2d");
+	    socket.on("clicked", function (data) {
+		console.log("on click : " + data);
+		c.drawImage(document.getElementById('question'),data.x,data.y,40,40);
+	    })
+	    
+	    
 	    deferred.resolve();
         }
     });
