@@ -15,7 +15,7 @@
       
     </head>
 <body>
-
+<div class="up" id="up">
 <h2 style="color: #04a; font-size: 24pt; font-family: 'Open Sans';">グラフツクラー</h2>
 
 <form name="selbox">
@@ -76,6 +76,7 @@
 <option value="-">市町村を選ぶ</option>
 </select>
 </form>
+
 
 <div class="container" id="container">
 <div class="buttons">
@@ -178,8 +179,15 @@
 </div> <!-- buttons -->
 
 
+
+
 </div> <!-- container -->
 
+<div class="clearCanvas" id="clearCanvas">
+  <input type="button" value="グラフをきれいにする" onclick="clearCanvas()">
+</div>
+
+</div> <!-- up -->
 
 <div style="display:none;">
   <img id="question" src="./img/icon_question.png" width="10" height="10">
@@ -189,7 +197,7 @@
   
 <div class="wrapper" id="wrapper">
   <canvas id="myCanvas">
- <div id="chart_div"/>
+ <div id="chart_div" />
  </canvas>
 </div>
 

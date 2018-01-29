@@ -2,35 +2,25 @@
 body {
     position: absolute;
     height: 100%;
-	margin: 0;
-	overflow: hidden;
-	width: 100%;}
-    .title {padding:10px;}
-    .main {padding-left:10px; margin:auto;}
-    .toolbar {}
-    .toolbar li {width:44px; height:44px; margin:auto;list-style-type: none; border:1px solid #ccc; border-radius:6px; margin:10px; display:block; float:left;}
-/*
-    #black {background-color:black;}
-    #red {background-color:red;}
-    #green {background-color:green;}
-    #blue {background-color:blue;}
-    #small {text-align:center; line-height:44px; font-size:100%;}
-    #middle {text-align:center; line-height:44px; font-size:200%;}
-    #large {text-align:center; line-height:44px; font-size:400%;}
-*/
+    width: 100%;
+    margin: 0;
+    overflow: auto;
+    width: 100%;}
+.title {padding:10px;}
+.main {padding-left:10px; margin:auto;}
 
-/*    .canvas {width:450px; height:400px; border:1px solid #ccc;}
-    .canvas canvas {width:450px; height:400px;}
-*/
 #wrapper {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
+
 #myCanvas {
     z-index: 10;
-    position: fixed;
-/*  background: #2FCDB4; */
-  display: block;
+    position: absolute;
+    display: block;
+    width: 100%;
+    /* pointer-events: none; ここを入れるとcanvasへのマウスイベントが無視される */ 
+    /* overflow: scroll; */
 }
 
 html {
@@ -38,32 +28,32 @@ html {
 }
 
 .buttons {
-  float: left;
+    float: left;
 }
 
 .container {
     z-index:20;
-  overflow: hidden;
+    overflow: hidden;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .raised{
-  display: inline-block;
-  background-color: #26a69b;/*背景色*/
-  color: #FFF;/*文字色*/
-  font-size: 1em;/*文字サイズ*/
-  line-height: 1;
-  text-decoration: none;
-  letter-spacing: 0.05em;/*字間*/
-  padding: 0.2em 1em;/*ボタン内の余白*/
-  border-radius: 3px;/*角の丸み*/
+    display: inline-block;
+    background-color: #26a69b;/*背景色*/
+    color: #FFF;/*文字色*/
+    font-size: 1em;/*文字サイズ*/
+    line-height: 1;
+    text-decoration: none;
+    letter-spacing: 0.05em;/*字間*/
+    padding: 0.2em 1em;/*ボタン内の余白*/
+    border-radius: 3px;/*角の丸み*/
     cursor: pointer;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);/*影*/
-  -webkit-tap-highlight-color: transparent;
-  transition: .3s ease-out;/*変化を緩やかに*/
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);/*影*/
+    -webkit-tap-highlight-color: transparent;
+    transition: .3s ease-out;/*変化を緩やかに*/
 }
 
 .raised:hover{

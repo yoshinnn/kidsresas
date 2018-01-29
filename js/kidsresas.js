@@ -4,7 +4,6 @@ var apiKey = 'M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh';
 
 google.charts.load('current', {packages: ['corechart', 'bar']});
 
-
 function selectType(types) {
     
 
@@ -16,21 +15,8 @@ function selectType(types) {
 	node.parentNode.removeChild(node);
 
     }
-    var div = document.createElement('div');
+    canvasInitialize();
 
-    div.setAttribute("id","wrapper");
-    div.setAttribute("class","wrapper");
-    document.body.appendChild(div);
-
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute("id","myCanvas");
-    document.getElementById('wrapper').appendChild(canvas);
-    var wrapper = document.getElementById('wrapper');
-//    wrapper.addEventListener("load", drawLines, false)
-    var div = document.createElement('div');
-    div.setAttribute("id","chart_div");
-    document.getElementById("wrapper").appendChild(div);
-//window.addEventListener("load",drawLines, false);    
     //セレクタを作成、選択された項目のボタンを非表示から表示するよう変更
     var selector = "div#";
     for (var i = 0; i < types.length; i++) {
@@ -49,18 +35,12 @@ function selectType(types) {
 
     var container = document.getElementById("container");
     var rect = container.getBoundingClientRect();
-    var cStart = rect.top + rect.height + window.pageYOffset;
+    var cStart = $("#up").height();//rect.top + rect.height + window.pageYOffset;
     console.log("canvas開始位置:" + cStart);
+
     sizing(cStart);
 }
 
-function sizing(cStart){
-    console.log("In sizing:" + cStart);
-    var newHeight = $("#wrapper").height() - cStart;
-    $("#myCanvas").attr({height:newHeight});
-    $("#myCanvas").css({top:cStart});
-    $("#myCanvas").attr({width:$("#wrapper").width()});
-}
 
 //続けて項目を選択された時に、前に選択されたボタンを非表示にする
 function hiddenButtons (types) {
@@ -131,11 +111,19 @@ function citySet(){
 	    }
 	}	
     });   
+
+    var canvas = document.getElementById("myCanvas");
+    var c = canvas.getContext("2d");
+    //c.clearRect(0,0,$("#myCanvas").width(),$("#myCanvas").height());
 }
 
 //RESASの人口構成のページに直接リンクする
 function linkToPopComp() {
 
+    canvasInitialize();
+
+    var chart_div = document.getElementById("chart_div");
+    
     var prefnum = document.selbox.pref.selectedIndex;
     var prefcode = document.selbox.pref.options[prefnum].value;
     var prefname = document.selbox.pref.options[prefnum].innerText;
@@ -150,8 +138,18 @@ function linkToPopComp() {
     }    
     var linkTo = "https://resas.go.jp/population-composition/#/transition/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
-    window.open(linkTo,'_blank');
+    //window.open(linkTo,'_blank');
+    
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute("src", linkTo);
+    iframe.setAttribute("id", "myFrame");
+    document.getElementById("chart_div").appendChild(iframe);
 
+    var container = document.getElementById("container");
+    var rect = container.getBoundingClientRect();
+    var cStart = $("#up").height();
+    sizingIframe(cStart);
+    socketQuestion();
 }
 
 //RESASの人口ピラミッドのページに直接リンクする
@@ -360,37 +358,16 @@ function linkToMuniVal() {
 //農業部門別販売金額を表示
 function drawAgriChart() {
     var socket = io.connect("/");
-    //続けて項目を選択した時に、前に表示している地図を削除する                                                                     
-    var node = document.getElementById('chart_div');
-    if(node != null){
-        node.parentNode.removeChild(node);
-        var node = document.getElementById('wrapper');
-        node.parentNode.removeChild(node);
+    //canvas,wrapperを初期化
+    canvasInitialize();
 
-    }
-    var div = document.createElement('div');
-
-    div.setAttribute("id","wrapper");
-    div.setAttribute("class","wrapper");
-    document.body.appendChild(div);
-
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute("id","myCanvas");
-    canvas.setAttribute("onClick","drawLines()");
-    document.getElementById('wrapper').appendChild(canvas);
-    
-    var wrapper = document.getElementById('wrapper');
-    
-    var div = document.createElement('div');
-    div.setAttribute("id","chart_div");
-    document.getElementById("wrapper").appendChild(div);
-    //wrapper.addEventListener("load", drawLines, false)
+/*
     var container = document.getElementById("container");
     var rect = container.getBoundingClientRect();
     var cStart = rect.top + rect.height + window.pageYOffset;
     console.log("canvas開始位置:" + cStart);
     sizing(cStart);
-
+*/
     var deferred = new $.Deferred();
     var apiPath = "api/v1/agriculture/all/forStacked";
 
@@ -444,14 +421,8 @@ function drawAgriChart() {
 	    
 //	    $('div').removeAttr('aria-hidden');
 //	    $('div').removeAttr('display');
-	        var socket = io.connect("/");
-	    var canvas = document.getElementById("myCanvas");
-	    var c = canvas.getContext("2d");
-	    socket.on("clicked", function (data) {
-		console.log("on click : " + data);
-		c.drawImage(document.getElementById('question'),data.x,data.y,40,40);
-	    })
-	    
+
+	    socketQuestion();
 	    
 	    deferred.resolve();
         }
