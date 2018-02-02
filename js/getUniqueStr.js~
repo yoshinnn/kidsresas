@@ -1,0 +1,5 @@
+function getUniqueStr(){
+     var strong = 1000;
+ if (myStrong) strong = myStrong;
+ console.log(new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16));
+}

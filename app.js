@@ -40,7 +40,6 @@ var io = socketIO.listen(server);
 // 接続されたら、connected!とコンソールにメッセージを表示します。                                                     
 io.sockets.on("connection", function (socket) {
         console.log("connected");
-
         // 描画情報がクライアントから渡されたら、接続中の他ユーザーへ                                                 
         // broadcastで描画情報を送ります。                                                                            
         // ちなみに、最近のsocket.IOでは、イベント名(以下だとdraw)は                                                  

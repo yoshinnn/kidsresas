@@ -15,7 +15,7 @@ function selectType(types) {
 	node.parentNode.removeChild(node);
 
     }
-    canvasInitialize();
+    //canvasInitialize();
 
     //セレクタを作成、選択された項目のボタンを非表示から表示するよう変更
     var selector = "div#";
@@ -35,10 +35,12 @@ function selectType(types) {
 
     var container = document.getElementById("container");
     var rect = container.getBoundingClientRect();
-    var cStart = $("#up").height();//rect.top + rect.height + window.pageYOffset;
+    /*
+      var cStart = $("#up").height();//rect.top + rect.height + window.pageYOffset;
     console.log("canvas開始位置:" + cStart);
 
     sizing(cStart);
+*/
 }
 
 
@@ -112,8 +114,8 @@ function citySet(){
 	}	
     });   
 
-    var canvas = document.getElementById("myCanvas");
-    var c = canvas.getContext("2d");
+//    var canvas = document.getElementById("myCanvas");
+    //var c = canvas.getContext("2d");
     //c.clearRect(0,0,$("#myCanvas").width(),$("#myCanvas").height());
 }
 

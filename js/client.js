@@ -1,5 +1,7 @@
-/*
+
 $(function () {
+
+/*
 //    sizing();
     $(window).resize(function() {
 	var container = document.getElementById("container");
@@ -23,14 +25,25 @@ $(function () {
 	//sizingIframe(cStart);
 	
     });
-
-});
 */
+    windowUserID = 0;
+
+
+    quesCoord = [];//
+    
+
+    window.onload = function(){
+	windowUserID += 1;
+	console.log(windowUserID);
+    };
+	
+});
 function clearCanvas(){
     console.log("clear");
     var canvas = document.getElementById("myCanvas");
     var c = canvas.getContext("2d");
     c.clearRect(0,0,$("#myCanvas").width(),$("#myCanvas").height());
+    quesCoord = [];
 }
 
 function sizing(cStart){
@@ -67,7 +80,8 @@ function scrollY(){
     return document.documentElement.scrollTop || document.body.scrollTop;
 }
 
-function getPos (canvas,event) {
+function getPos (event) {
+    var canvas = document.getElementById("myCanvas");
     var mouseX = event.clientX - $(canvas).position().left + scrollX();
     var mouseY = event.clientY - $(canvas).position().top + scrollY();
     return {x:mouseX, y:mouseY};
@@ -87,26 +101,28 @@ function drawQuestion() {
     var canvas = document.getElementById("myCanvas");
     var c = canvas.getContext("2d");
     console.log("click");
-    var pos = getPos(canvas,event);
+    var pos = getPos(event);
     var cWidth = canvas.clientWidth;
     var cHeight = canvas.clientHeight;
     console.log(cWidth + " px / " + cHeight + " px");
-    var cSize = {width:cWidth, height:cHeight};
+    //var cSize = {width:cWidth, height:cHeight};
     console.log("x=" + pos.x + ", y=" + pos.y);
     console.log(document.getElementById('question'));
-    socket.emit("clicked", {pos, cSize});
+    var uid = document.selbox.userid.value;
+    socket.emit("clicked", {pos,uid});
 }
 
 //wrapper要素とその子要素(canvas,chart_div)を初期化                                                                                                                 
 function canvasInitialize() {
-    //続けて項目を選択した時に、前に表示している地図を削除する                                                                                                      
+    //続けて項目を選択した時に、前に表示している地図を削除する
+    quesCoord = [];
     var node = document.getElementById('chart_div');
     if(node != null){
         node.parentNode.removeChild(node);
         var node = document.getElementById('wrapper');
         node.parentNode.removeChild(node);
     }
-
+    windowUserID += 1;
     var wrapper = document.createElement('div');
     wrapper.setAttribute("id","wrapper");
     wrapper.setAttribute("class","wrapper");
@@ -115,7 +131,10 @@ function canvasInitialize() {
     var canvas = document.createElement('canvas');
     canvas.setAttribute("id","myCanvas");
     canvas.setAttribute("onClick","drawQuestion()");
+
+    //canvas.addEventListener("mouseover","questionAlert()");
     wrapper.appendChild(canvas);
+    canvas.addEventListener('mousemove',onMousemove,false);
 
     var chart_div = document.createElement('div');
     chart_div.setAttribute("id","chart_div");
@@ -129,7 +148,13 @@ function canvasInitialize() {
     sizing(cStart);
     sizingIframe(cStart);
 }
+/*
+function questionAlert() {
+    if()
 
+    
+}
+*/
 function socketQuestion() {
     var socket = io.connect("/");
     var canvas = document.getElementById("myCanvas");
@@ -140,10 +165,41 @@ function socketQuestion() {
     var cHeight = canvas.clientHeight;
 
     socket.on("clicked", function (data) {
-        console.log("on click, pos: " + JSON.stringify(data.pos) + " cSize: " + JSON.stringify(data.cSize));
+        console.log("on click, pos: " + JSON.stringify(data.pos));
         //画面サイズによってdrawAgrichartなどで描画するグラフの縮小率が変化してしまうためグラフを分解してdrawImageの位置を変える必要があるが
         //同じサイズのタブレットを使っているとして割愛
-        c.drawImage(document.getElementById('question'), data.pos.x - width/2 ,data.pos.y - height/2 , width ,height);
+	var newQuest = document.getElementById('question');
+	//posの値と個人IDをグローバル変数として保持,posから範囲内のマウスオーバーでIDをアラートする方向で
+	
+        c.drawImage(newQuest, data.pos.x - width/2, data.pos.y - height/2, width, height);
+	
+	quesCoord.push([data.uid,data]);
         //c.drawImage(document.getElementById('question'), (cWidth/data.cSize.width)*data.pos.x - width/2 ,(cHeight/data.cSize.height)*data.pos.y - height/2 , width ,height);
     });
+}
+function throttle(targetFunc, time) {
+    var _time = time || 100;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(function () {
+        targetFunc();
+    }, _time);
+}
+function objCheck(event){
+    throttle(function() {
+	
+	var pos = getPos(event);
+	console.log("クリック"+JSON.stringify(pos));
+	for(i = 0;i < quesCoord.length; i++){
+            console.log(quesCoord[i][1].pos.x+" " +pos.x);
+            if(((quesCoord[i][1].pos.x - 10) <= pos.x && (quesCoord[i][1].pos.x + 10) >= pos.x) && ((quesCoord[i][1].pos.y - 10) <= pos.y && (quesCoord[i][1].pos.y + 10) >= pos.y)){
+		alert("ID:"+quesCoord[i][0]);	
+            }
+	}		
+        // 描画処理
+    }, 100);
+    
+}
+
+function onMousemove(event){
+    objCheck(event);
 }
