@@ -94,10 +94,17 @@ function getPosT (canvas,event) {
     return {x:mouseX, y:mouseY};
 }
 */
+function ioconnect() {
+    var socket = io.connect("http://www.srmt.nitech.ac.jp/");
+    return socket;
+
+}
 
 function drawQuestion() {
     console.log("wrapper");
-    var socket = io.connect("/");
+    //var socket = io.connect("http:www.srmt.nitech.ac.jp/gtskler");
+    //var socket = io.connect("/");
+    var socket = ioconnect();
     var canvas = document.getElementById("myCanvas");
     var c = canvas.getContext("2d");
     console.log("click");
@@ -148,19 +155,14 @@ function canvasInitialize() {
     sizing(cStart);
     sizingIframe(cStart);
 }
-/*
-function questionAlert() {
-    if()
 
-    
-}
-*/
 function socketQuestion() {
-    var socket = io.connect("/");
+    //var socket = io.connect("/");
+    var socket = ioconnect();
     var canvas = document.getElementById("myCanvas");
     var c = canvas.getContext("2d");
-    var height = 20;
-    var width = 20;
+    var height = 40;
+    var width = 40;
     var cWidth = canvas.clientWidth;
     var cHeight = canvas.clientHeight;
 

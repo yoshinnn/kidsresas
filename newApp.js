@@ -1,5 +1,5 @@
 // 必要なモジュールを読み込みます。
-var socketIO = require("socket.io");
+
 var PORT = 2222;//add
 
 var fs = require("fs");
@@ -7,6 +7,7 @@ var url = require('url');
 var path = require('path');
 var mime = require('mime');
 var http = require("http");
+var socketIO = require("socket.io");
 //var app = require("express")();//add
 //var http = require("http").Server(app);//add
 
@@ -40,8 +41,8 @@ var server = http.createServer(function (req, res) {
 });
 server.listen(PORT);
 
-// socket.IOを用いたリアルタイムWebを実装します。                                                                     
-var io = socketIO.listen(server);
+// socket.IOを用いたリアルタイムWebを実装します。
+var io = socketIO(server);
 //var io = require("socket.io")(http);//add
 //io.set("origins", "*:*");//add
 // 接続されたら、connected!とコンソールにメッセージを表示します。                                                     
@@ -74,4 +75,6 @@ io.sockets.on("connection", function (socket) {
                 socket.broadcast.emit("lineWidth", width);
             });
     });
+
+
 

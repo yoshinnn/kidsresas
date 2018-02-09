@@ -1,18 +1,22 @@
+#!/usr/bin/env node
+
 // 必要なモジュールを読み込みます。
 var socketIO = require("socket.io");
-var PORT = 2222;//add
+var port = process.env.PORT || 2222;//add
 
 var fs = require("fs");
 var url = require('url');
 var path = require('path');
 var mime = require('mime');
 var http = require("http");
-//var app = require("express")();//add
+var express = require("express");//add
+var app = express();
 //var http = require("http").Server(app);//add
 
-
+var server = http.createServer(app);
 // node.jsでWebServerを作ります。                                                                                     
-// アクセスされたら、クライアントに表示するsyncCanvas.htmlを返します。                                                
+// アクセスされたら、クライアントに表示するsyncCanvas.htmlを返します。
+/*
 var server = http.createServer(function (req, res) {
     
     var path;
@@ -32,16 +36,39 @@ var server = http.createServer(function (req, res) {
     res.write(data);
     res.end();
   });    
-/*    res.writeHead(200, {"Content-Type": "text/html"});
-    var output = fs.readFileSync("./index.html", "utf-8");
-    res.end(output);
-*/
 
 });
-server.listen(PORT);
+*/
+
 
 // socket.IOを用いたリアルタイムWebを実装します。                                                                     
 var io = socketIO.listen(server);
+
+
+
+app.get('/',function (req, res) {                                                              
+                                                                                                                  
+    var path;                                                                                                     
+    if(req.url == '/') {                                                                                          
+        path = './index.html';                                                                                    
+    } else {                                                                                                      
+        path = '.' + req.url;                                                                                     
+    }                                                                                                             
+  // Read File and Write                                                                                          
+  fs.readFile(path, function (err, data) {                                                                        
+    if(err) {                                                                                                     
+      res.writeHead(404, {"Content-Type": "text/plain"});                                                         
+      return res.end(req.url + ' not found.');                                                                    
+    }                                                                                                             
+    var type = mime.lookup(path);                                                                                 
+    res.writeHead(200, {"Content-Type": type});                                                                   
+    res.write(data);                                                                                              
+    res.end();                                                                                                    
+  });                                                                                                             
+                                                                                                                  
+});           
+
+//io.path('/subdir')
 //var io = require("socket.io")(http);//add
 //io.set("origins", "*:*");//add
 // 接続されたら、connected!とコンソールにメッセージを表示します。                                                     
@@ -75,3 +102,6 @@ io.sockets.on("connection", function (socket) {
             });
     });
 
+server.listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});

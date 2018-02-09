@@ -1,4 +1,4 @@
-var baseUrl = 'https://opendata.resas-portal.go.jp/';
+ 　var baseUrl = 'https://opendata.resas-portal.go.jp/';
 var apiKey = 'M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh';
 
 
@@ -120,6 +120,7 @@ function citySet(){
 }
 
 //RESASの人口構成のページに直接リンクする
+//1-1
 function linkToPopComp() {
 
     canvasInitialize();
@@ -141,7 +142,9 @@ function linkToPopComp() {
     var linkTo = "https://resas.go.jp/population-composition/#/transition/"+prefcode+"/"+citycode+"/2015/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     //window.open(linkTo,'_blank');
-    
+//linkToから始まるfunction全部にwindow.open~をコメントアウトして
+//以下の部分を他のところにコピペしてください
+/////////////////////////////////////////    
     var iframe = document.createElement('iframe');
     iframe.setAttribute("src", linkTo);
     iframe.setAttribute("id", "myFrame");
@@ -152,9 +155,12 @@ function linkToPopComp() {
     var cStart = $("#up").height();
     sizingIframe(cStart);
     socketQuestion();
+//////////////////////////////////////////
+
 }
 
 //RESASの人口ピラミッドのページに直接リンクする
+//ここにコピペ
 function linkToPyramid() {
 
     var prefnum = document.selbox.pref.selectedIndex;
@@ -359,7 +365,16 @@ function linkToMuniVal() {
 
 //農業部門別販売金額を表示
 function drawAgriChart() {
-    var socket = io.connect("/");
+    //console.log("どこ１");
+    //var socket = ioconnect();
+    //var socket = io.connect("http://www.srmt.nitech.ac.jp/gtskler");
+    //const socket = io({path: '/socket.io/'}).connect("/");
+    /*
+    var socket;
+    socket = io.connect(location.protocol + "//" + location.hostname + ":" + location.port, {
+	path: "/ws/socket.io"
+    });
+    */
     //canvas,wrapperを初期化
     canvasInitialize();
 
@@ -423,7 +438,7 @@ function drawAgriChart() {
 	    
 //	    $('div').removeAttr('aria-hidden');
 //	    $('div').removeAttr('display');
-
+	    console.log("socketQ");
 	    socketQuestion();
 	    
 	    deferred.resolve();
