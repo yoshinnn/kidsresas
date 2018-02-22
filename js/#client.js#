@@ -203,6 +203,7 @@ function onMousemove(event){
 }
 
 function graphDistribution(){
-
+    var funcName = document.getElementById("funcname").value;
+    window[funcName]()
 
 }

@@ -1,4 +1,4 @@
- 　var baseUrl = 'https://opendata.resas-portal.go.jp/';
+var baseUrl = 'https://opendata.resas-portal.go.jp/';
 var apiKey = 'M1o2g9y0ORtM4StEcRPMBxiBwFr6lTPrZa9cXyJh';
 
 
@@ -79,6 +79,10 @@ function hiddenButtons (types) {
 
 }
 
+//input type="hidden"に使用した関数名を埋め込む
+function buryFunc(funcName){
+    document.getElementById("funcname").value = funcName;
+}
 
 
 //都道府県を選択した時に市町村を取得しドロップダウンリストに追加
@@ -122,7 +126,7 @@ function citySet(){
 //RESASの人口構成のページに直接リンクする
 //1-1
 function linkToPopComp() {
-
+    //このfunctionも他のlinkTo〜にコピペ
     canvasInitialize();
 
     var chart_div = document.getElementById("chart_div");
@@ -328,11 +332,11 @@ function linkToMuniComp() {
     }else{
         scope = 2;//市町村を選択                                                                                                                            
     }
-    var larClass = "-";
-    var midClass = "-";
+    var largeClass = "-";
+    var middleClass = "-";
     var year = 2015;
 // https://resas.go.jp/municipality-company/#/graph/23/23210/2014/-/-/2/9.80842795672283/35.07185405/137.44284295
-    var linkTo = "https://resas.go.jp/municipality-company/#/graph/"+prefcode+"/"+citycode+"/"+year+"/"+larClass+"/"+midClass+"/"+scope+"/9.139551352398794/35.07185405/137.44284295";
+    var linkTo = "https://resas.go.jp/municipality-company/#/graph/"+prefcode+"/"+citycode+"/"+year+"/"+largeClass+"/"+middleClass+"/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
@@ -353,11 +357,11 @@ function linkToMuniVal() {
     }else{
         scope = 2;//市町村を選択                                                                                                                                                          
     }
-    var larClass = "-";
-    var midClass = "-";
+    var largeClass = "-";
+    var middleClass = "-";
     var year = 2012;
 
-    var linkTo = "https://resas.go.jp/municipality-value/#/graph/"+prefcode+"/"+citycode+"/"+year+"/"+larClass+"/"+midClass+"/"+scope+"/9.139551352398794/35.07185405/137.44284295";
+    var linkTo = "https://resas.go.jp/municipality-value/#/graph/"+prefcode+"/"+citycode+"/"+year+"/"+largeClass+"/"+middleClass+"/"+scope+"/9.139551352398794/35.07185405/137.44284295";
     console.log(linkTo);
     window.open(linkTo,'_blank');
 
@@ -378,13 +382,6 @@ function drawAgriChart() {
     //canvas,wrapperを初期化
     canvasInitialize();
 
-/*
-    var container = document.getElementById("container");
-    var rect = container.getBoundingClientRect();
-    var cStart = rect.top + rect.height + window.pageYOffset;
-    console.log("canvas開始位置:" + cStart);
-    sizing(cStart);
-*/
     var deferred = new $.Deferred();
     var apiPath = "api/v1/agriculture/all/forStacked";
 
@@ -440,7 +437,7 @@ function drawAgriChart() {
 //	    $('div').removeAttr('display');
 	    console.log("socketQ");
 	    socketQuestion();
-	    
+	    buryFunc("drawAgriChart");
 	    deferred.resolve();
         }
     });

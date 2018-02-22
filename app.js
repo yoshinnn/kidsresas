@@ -1,3 +1,4 @@
+//node app.jsで実行
 // 必要なモジュールを読み込みます。
 var socketIO = require("socket.io");
 var PORT = 2222;//add
@@ -12,7 +13,7 @@ var http = require("http");
 
 
 // node.jsでWebServerを作ります。                                                                                     
-// アクセスされたら、クライアントに表示するsyncCanvas.htmlを返します。                                                
+// アクセスされたら、クライアントに表示するindex.htmlを返します。                                                
 var server = http.createServer(function (req, res) {
     
     var path;
@@ -60,18 +61,5 @@ io.sockets.on("connection", function (socket) {
                 socket.broadcast.emit("clicked", data);
             });
     
-        // 色変更情報がクライアントからきたら、                                                                       
-        // 他ユーザーへ変更後の色を通知します。                                                                       
-        socket.on("color", function (color) {
-                console.log(color);
-                socket.broadcast.emit("color", color);
-            });
-
-        // 線の太さの変更情報がクライアントからきたら、                                                               
-        // 他ユーザーへ変更後の線の太さを通知します。                                                                 
-        socket.on("lineWidth", function (width) {
-                console.log(width);
-                socket.broadcast.emit("lineWidth", width);
-            });
-    });
+});
 
