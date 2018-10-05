@@ -1,39 +1,26 @@
+var socket = null;
+var height = 40;
+var width = 40;
+
+var userRoom;
 
 $(function () {
 
-/*
-//    sizing();
-    $(window).resize(function() {
-	var container = document.getElementById("container");
-	var rect = container.getBoundingClientRect();
-	//var cStart = rect.top + rect.height + window.pageYOffset;
+    socket = io({path: '/gtskler/socket.io/'});
+    console.log(socket);
+    $("#entrance").show();
+    $("#maincontents").hide();
 
-	var cStart = $("#up").height();
-	console.log("canvasの開始位置:" + cStart);    // y座標(絶対座標)
-	//sizing(cStart);
-	//sizingIframe(cStart);
-	
-    });
-    $(window).load(function(){
-	var container = document.getElementById("container");
-	var rect = container.getBoundingClientRect();
-	//var cStart = rect.top + rect.height + window.pageYOffset;
-	
-	var cStart = $("#up").height();
-	console.log("canvasの開始位置:" + cStart);    // y座標(絶対座標)
-	//sizing(cStart);
-	//sizingIframe(cStart);
-	
-    });
-*/
-    windowUserID = 0;
     quesCoord = [];
-    window.onload = function(){
-	windowUserID += 1;
-	console.log(windowUserID);
-    };
-	
+
+    socketQuestion();
+    socketGraphDist();
+    socketEnterRoom();
 });
+
+
+
+
 function clearCanvas(){
     console.log("clear");
     var canvas = document.getElementById("myCanvas");
@@ -45,8 +32,8 @@ function clearCanvas(){
 function sizing(cStart){
     console.log("In sizing:" + cStart);
     //$("#wrapper").height(document.body.clientHeight - $("#up").height());
-    $("#wrapper").height(800);
-    $("#wrapper").width(1200);
+    $("#wrapper").height(1600);
+    $("#wrapper").width(1400);
     
     var newHeight = $("#wrapper").height();
     $("#myCanvas").attr({height:newHeight});
@@ -89,19 +76,9 @@ function getPosT (canvas,event) {
     return {x:mouseX, y:mouseY};
 }
 */
-function ioconnect() {
-    
-    var socket = io.connect("http://www.srmt.nitech.ac.jp:2222");
-    //console.log(socket);
-    return socket;
-
-}
 
 function drawQuestion() {
     console.log("wrapper");
-    //var socket = io.connect("http:www.srmt.nitech.ac.jp/gtskler");
-    //var socket = io.connect("/");
-    var socket = ioconnect();
     var canvas = document.getElementById("myCanvas");
     var c = canvas.getContext("2d");
     console.log("click");
@@ -113,6 +90,11 @@ function drawQuestion() {
     console.log("x=" + pos.x + ", y=" + pos.y);
     console.log(document.getElementById('question'));
     var uid = document.selbox.userid.value;
+    var newQuest = document.getElementById('question');
+    quesCoord.push([uid,{pos,uid}]);
+    c.drawImage(newQuest, pos.x - width/2, pos.y - height/2, width, height);
+
+    socket.emit("fileAppending","グラフクリック送信");
     socket.emit("clicked", {pos,uid});
 }
 
@@ -126,7 +108,7 @@ function canvasInitialize() {
         var node = document.getElementById('wrapper');
         node.parentNode.removeChild(node);
     }
-    windowUserID += 1;
+
     var wrapper = document.createElement('div');
     wrapper.setAttribute("id","wrapper");
     wrapper.setAttribute("class","wrapper");
@@ -154,27 +136,81 @@ function canvasInitialize() {
 }
 
 function socketQuestion() {
-    //var socket = io.connect("/");
-    var socket = ioconnect();
-    var canvas = document.getElementById("myCanvas");
-    var c = canvas.getContext("2d");
-    var height = 40;
-    var width = 40;
-    var cWidth = canvas.clientWidth;
-    var cHeight = canvas.clientHeight;
-
     socket.on("clicked", function (data) {
+
+	socket.emit("fileAppending","グラフクリック受信");
+	var canvas = document.getElementById("myCanvas");
+	var c = canvas.getContext("2d");
+	
+	var cWidth = canvas.clientWidth;
+	var cHeight = canvas.clientHeight;
         console.log("on click, pos: " + JSON.stringify(data.pos));
         //画面サイズによってdrawAgrichartなどで描画するグラフの縮小率が変化してしまうためグラフを分解してdrawImageの位置を変える必要があるが
         //同じサイズのタブレットを使っているとして割愛
 	var newQuest = document.getElementById('question');
 	//posの値と個人IDをグローバル変数として保持,posから範囲内のマウスオーバーでIDをアラートする方向で	
         c.drawImage(newQuest, data.pos.x - width/2, data.pos.y - height/2, width, height);
-	
 	quesCoord.push([data.uid,data]);
-        //c.drawImage(document.getElementById('question'), (cWidth/data.cSize.width)*data.pos.x - width/2 ,(cHeight/data.cSize.height)*data.pos.y - height/2 , width ,height);
+        
     });
 }
+
+function socketGraphDist(){
+    socket.on("graphDistribution", function(data) {
+	socket.emit("fileAppending","グラフ共有受信");
+	console.log(data);
+	console.log(data.funcName);
+	console.log(data.codeNum);
+	document.selbox.pref.selectedIndex = data.codeNum.pref;
+
+	var parent = document.getElementById("city");
+	while (parent.firstChild) parent.removeChild(parent.firstChild);//市町村のセレクトボックス初期化
+	//セレクトボックスにソケットで送られた市町村を追加
+	let selCity = document.createElement("option");
+        selCity.value = "-";
+        selCity.text = "市町村を選ぶ";
+        document.getElementById("city").appendChild(selCity);
+	let op = document.createElement("option");
+	op.value = data.codeNum.city.citycode;
+	op.text = data.codeNum.city.cityname;
+	document.getElementById("city").appendChild(op);
+	document.selbox.city.selectedIndex = 1;//セレクトボックスには「市町村を選ぶ」とソケットで受け取った市町村しかないので選択される
+	
+	window[data.funcName]();
+    });
+}
+
+function socketEnterRoom(){
+    socket.on("enter", function(data){
+	console.log("enter");
+	var roomName = data.value;
+	console.log(roomName);
+	$("#usersRoomId").val(roomName);
+	
+    });
+
+}
+
+/*
+function socketRoomInitialize(){
+    socket.on("roomInitialize", function(rooms){
+	console.log("roomInit");
+	console.log("rooms:"+JSON.stringify(rooms));
+	var roomVals = $("#roomNumber").children();
+	    for( var i=0; i<roomVals.length; i++ ){
+		var roomName = roomVals.eq(i).val();
+		var roomText = roomVals.eq(i).text();
+		var bar = roomText.match(/(\d+)人使用中/)[1];
+		console.log(roomName+":"+roomText+":"+bar);
+		console.log("rooms:"+rooms[roomName]);
+		console.log(roomText.replace(/\d+人使用中/,rooms[roomName]+"人使用中"));
+		roomVals.eq(i).text(roomText.replace(/\d+人使用中/,rooms[roomName]+"人使用中"));
+	    }
+
+    });
+}
+*/
+
 function throttle(targetFunc, time) {
     var _time = time || 100;
     clearTimeout(this.timer);
@@ -203,6 +239,73 @@ function onMousemove(event){
 }
 
 function graphDistribution(){
+    var funcName = document.getElementById("funcname").value;
+    //window[funcName]();
+    var prefnum = document.selbox.pref.selectedIndex;
+    var prefcode = document.selbox.pref.options[prefnum].value;
+    var prefname = document.selbox.pref.options[prefnum].innerText;
+    var citynum = document.selbox.city.selectedIndex;
+    var citycode = document.selbox.city.options[citynum].value;
+    var cityname;
+    console.log(citycode);
+    if(citycode == "-"){
+        cityname = "全体";
+    }else{
+        cityname = document.selbox.city.options[citynum].innerText;
+    }
+    var codeNum = {pref:prefcode,city:{citycode,cityname}};
 
+    socket.emit("graphDistribution",{funcName,codeNum});
+    socket.emit("fileAppending","グラフ共有送信");
 
 }
+function roomEnter(){
+    var roomName = document.forms.room.roomid.value;
+    console.log(roomName);
+    socket.emit("enter", {value:roomName});
+    userRoom = roomName;
+    $("#entrance").hide();
+    $("#maincontents").show();
+    
+}
+
+function socketRoom(){
+    socket.on("init", function(data){
+	console.log("入室完了");
+    });    
+}
+function getRandomNumber() {
+   var randnum = Math.floor( Math.random() * 1000 );
+   document.getElementById("randomNum").innerHTML = randnum;
+}
+/*
+function roomSelect(){
+    var roomName = document.selbox.roomNumber.value;
+
+ 
+    console.log(roomName);
+    socket.emit("init", {value:roomName});
+    userRoom = roomName;
+
+}
+
+
+function socketRoomNum(){
+    socket.on("roomCalc", function(rooms){
+	console.log("roomCalc");
+	console.log(rooms);
+        console.log("rooms:"+JSON.stringify(rooms));
+        var roomVals = $("#roomNumber").children();
+            for( var i=0; i<roomVals.length; i++ ){
+                var roomName = roomVals.eq(i).val();
+                var roomText = roomVals.eq(i).text();
+                var bar = roomText.match(/(\d+)人使用中/)[1];
+                console.log(roomName+":"+roomText+":"+bar);
+                console.log("rooms:"+rooms[roomName]);
+                console.log(roomText.replace(/\d+人使用中/,rooms[roomName]+"人使用中"));
+                roomVals.eq(i).text(roomText.replace(/\d+人使用中/,rooms[roomName]+"人使用中"));
+            }
+    });
+
+}
+*/
