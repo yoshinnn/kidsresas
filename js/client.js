@@ -8,8 +8,8 @@ $(function () {
 
     socket = io({path: '/gtskler/socket.io/'});
     console.log(socket);
-    $("#entrance").show();
-    $("#maincontents").hide();
+//    $("#entrance").show();
+//    $("#maincontents").hide();
 
     quesCoord = [];
 
@@ -129,7 +129,7 @@ function canvasInitialize() {
     var container = document.getElementById("container");
     var rect = container.getBoundingClientRect();
     //var cStart = rect.top + rect.height + window.pageYOffset;
-    var cStart = $("#up").height();
+    var cStart = $("#up").height()+$("#top").height();
     console.log("canvas開始位置:" + cStart);
     sizing(cStart);
     sizingIframe(cStart);

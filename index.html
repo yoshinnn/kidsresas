@@ -3,7 +3,7 @@
 <html>
     <head>
       <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-      <link type="text/css" rel="stylesheet" href="./css/hoge.css"  media="screen,projection"/>      
+      <link type="text/css" rel="stylesheet" href="./css/hoge.css"  media="screen,projection,print"/>      
       <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="./js/materialize.min.js"></script>
@@ -18,7 +18,13 @@
     </head>
     <title>グラフツクラー</title> 
     <body>
+      <div class="top" id="top">      
 	<h2 style="color: #04a; font-size: 24pt; font-family: 'Open Sans';">グラフツクラー</h2>
+	<p><strong>12月22日に開催する評価実験の参加者を募集しています！</strong></p>
+	<p>詳細は<a href="http://www.srmt.nitech.ac.jp/~yoshinori/event/event.html"><strong>こちら</strong></a>から!</p>
+      </div>
+      
+<!--
 <div class="entrance" id="entrance">
 
 <p>
@@ -32,7 +38,7 @@
 
 </form>
 </div>
-
+-->
       <div class="maincontents" id="maincontents">
       <div class="up" id="up">
 <!--	<h2 style="color: #04a; font-size: 24pt; font-family: 'Open Sans';">グラフツクラー</h2>
@@ -42,10 +48,12 @@
 <p class="bgimg">
    <img src="./img/school_class.png" width="125" height="110" top="100px" left="1000px">
 </P>
-
+<input type="button" value="このページを印刷" onclick="window.print();">
+<!--
 <p>あなたは部屋番号<input readonly type="text" name="usersRoomId" id="usersRoomId" value="">
 に入室中です
 </p>
+-->
 <p>出席番号:<input type="text" name="userid" class="userid"> 
 </p>
 <!--
@@ -350,7 +358,7 @@
 </div> <!-- up -->
 
 <div style="display:none;">
-  <img id="question" src="./img/icon_question.png" width="10" height="10">
+  <img id="question" src="./img/denkyuu_on.png" width="10" height="10">
 </div>
 
 
